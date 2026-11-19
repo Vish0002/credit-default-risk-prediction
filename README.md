@@ -151,3 +151,29 @@ The application will be accessible at http://127.0.0.1:8000/docs.
 
 The container uses the saved model artifact and does not retrain the model on startup.
 
+## Testing
+
+The project uses `pytest` to verify the prediction functionality and FastAPI endpoints.
+
+Four automated tests cover:
+
+- **Model inference:** Checks that the saved pipeline produces valid probability estimates and applies the selected threshold.
+- **Health endpoint:** Verifies that the API responds successfully.
+- **Valid customer input:** Confirms that the prediction endpoint returns the expected response structure.
+- **Invalid customer input:** Verifies that Pydantic rejects invalid input with HTTP status 422.
+
+Run all tests from the project root:
+
+```bash
+python -m pytest -v
+```
+
+## Limitations
+
+This project is an educational demonstration of an end-to-end ML prediction system and is not intended for real-world lending decisions.
+
+- **Historical dataset:** The model was trained on credit-card data from Taiwan in 2005. Performance on modern Canadian customers has not been established.
+- **Limited recall:** The final model identified approximately 37.91% of actual defaulters, meaning many defaults were missed.
+- **Threshold assumptions:** The 0.45 threshold represents a hypothetical manual-review scenario and was not optimized using actual business costs or operational constraints.
+- **Fairness:** Demographic variables are included in the experimental model, but fairness across customer groups has not been established.
+- **Production readiness:** The system includes API validation, automated tests and Docker packaging, but lacks production monitoring, drift detection, access controls and external validation.
